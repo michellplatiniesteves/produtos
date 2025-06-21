@@ -1,7 +1,9 @@
 package br.com.produtos.service;
 
+import br.com.produtos.config.ProdutoRabbitmq;
 import br.com.produtos.controller.ProdutoController;
 import br.com.produtos.entidade.Produto;
+import br.com.produtos.fila.PedidoFila;
 import br.com.produtos.repository.ProdutoRepository;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -16,9 +18,11 @@ import java.util.List;
 public class ProdutoService {
     private final Logger logger = LoggerFactory.getLogger(ProdutoService.class);
     private final ProdutoRepository produtoRepository;
+    private final PedidoFila pedidoFila;
 
-    public ProdutoService(ProdutoRepository produtoRepository) {
+    public ProdutoService(ProdutoRepository produtoRepository,  PedidoFila pedidoFila) {
         this.produtoRepository = produtoRepository;
+        this.pedidoFila = pedidoFila;
     }
 
     public List<Produto> buscarTodos() {
@@ -34,7 +38,9 @@ public class ProdutoService {
 
     public Produto salvarProduto(@Valid Produto produto) {
         logger.info("Salvar com sucesso");
-        return produtoRepository.save(produto);
+        produto =produtoRepository.save(produto);
+        pedidoFila.AdicionarFila(produto);
+        return produto;
     }
 
     public String deletarProdutoPorID(Long id) {
