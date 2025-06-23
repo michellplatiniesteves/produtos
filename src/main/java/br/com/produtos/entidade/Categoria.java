@@ -17,7 +17,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class Categoria implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "categoria_seq")
     @SequenceGenerator(name = "categoria_seq",initialValue = 1,allocationSize = 1)
     private Long id;
 

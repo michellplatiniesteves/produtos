@@ -19,7 +19,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class Produto implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "produto_seq")
     @SequenceGenerator(name = "produto_seq",initialValue = 1,allocationSize = 1)
     private Long id;
 
