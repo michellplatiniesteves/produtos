@@ -10,6 +10,8 @@ import br.com.produtos.entidade.UsuarioDetailsImpl;
 import br.com.produtos.repository.UsuarioRepository;
 import br.com.produtos.security.JwtTokenService;
 import br.com.produtos.security.SecurityConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +22,7 @@ import java.util.List;
 
 @Service
 public class UsuarioService {
+    Logger logger = LoggerFactory.getLogger(UsuarioService.class);
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -63,6 +66,10 @@ public class UsuarioService {
 
         // Salva o novo usuário no banco de dados
         userRepository.save(newUser);
+    }
+
+    public List<Usuario> buscarUsuarioPorNome(String nome) {
+        return userRepository.buscarPorNome(nome);
     }
 }
 

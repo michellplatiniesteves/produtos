@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,17 @@ public class CategoriaController {
     public ResponseEntity<Categoria> buscarProdutoPorID(@PathVariable Long id) {
         return ResponseEntity.ok(categoriaService.buscarCategoriaPorID(id));
     }
+    @GetMapping("/{nome}")
+    @Operation(summary = "Buscar pelo ID", description = "Buscar Categoria por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "A Requisição foi bem sucedida"),
+            @ApiResponse(responseCode = "202", description = "A requisição foi recebida pelo servidor, mas ainda não foi completamente processada."),
+            @ApiResponse(responseCode = "400", description = "O servidor não vai processar a requisição por um erro nas informações enviadas pelo cliente"),
+            @ApiResponse(responseCode = "404 ", description = "O servidor não encontrou uma representação atual do recurso solicitado")
+    })
+    public ResponseEntity<Categoria> buscarProdutoPorNome(@PathVariable String nome) {
+        return ResponseEntity.ok(categoriaService.buscarProdutoPorNome(nome));
+    }
     @PostMapping("/")
     @Operation(summary = "Salvar Categoria", description = "Adicionar a Categoria")
     @ApiResponses(value = {
@@ -64,7 +76,8 @@ public class CategoriaController {
             @ApiResponse(responseCode = "400", description = "O servidor não vai processar a requisição por um erro nas informações enviadas pelo cliente"),
             @ApiResponse(responseCode = "404 ", description = "O servidor não encontrou uma representação atual do recurso solicitado")
     })
-    public ResponseEntity<String> deletarProdutoPorID(@PathVariable Long id) {
-        return ResponseEntity.ok(categoriaService.deletarCategoriaPorID(id));
+    public ResponseEntity<Void> deletarProdutoPorID(@PathVariable Long id) {
+        categoriaService.deletarCategoriaPorID(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

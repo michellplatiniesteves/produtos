@@ -37,10 +37,14 @@ public class CategoriaService {
         return categoriaRepository.save(categoria);
     }
 
-    public String deletarCategoriaPorID(Long id) {
+    public void deletarCategoriaPorID(Long id) {
         var categoria = this.buscarCategoriaPorID(id);
         categoriaRepository.delete(categoria);
         logger.info("Deletado com sucesso");
-        return "Deletado com sucesso";
+    }
+
+    public Categoria buscarProdutoPorNome(String nome) {
+        logger.info("Buscar Realizado com sucesso");
+        return categoriaRepository.findByNome(nome);
     }
 }
